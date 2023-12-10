@@ -1,6 +1,4 @@
-FROM openjdk
-EXPOSE 8080
+FROM python
 WORKDIR /app
 COPY . /app
-RUN javac Hello.java
-CMD ["java","Hello"]
+CMD ["python3","app.py"]
