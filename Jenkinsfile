@@ -1,21 +1,21 @@
 pipeline {
-    agent any
-
-    stages {
-        stage('Build') {
-            steps {
-                echo 'Building..'
-            }
+  agent any
+  stages {
+    stage('Maven Install') {
+      agent {
+        docker {
+          image 'maven:3.5.0'
         }
-        stage('Test') {
-            steps {
-                echo 'Testing..'
-            }
-        }
-        stage('Deploy') {
-            steps {
-                echo 'Deploying....'
-            }
-        }
+      }
+      steps {
+        sh 'mvn clean install'
+      }
     }
+    stage('Docker Build') {
+      agent any
+      steps {
+        sh 'docker build -t shanem/spring-petclinic:latest .'
+      }
+    }
+  }
 }
